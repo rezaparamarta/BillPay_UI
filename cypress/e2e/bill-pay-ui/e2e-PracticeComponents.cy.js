@@ -119,6 +119,25 @@ describe('Bill Pay UI Practice Components', () => {
 
         // Assertion for drag and drop
         cy.get('[data-testid="drop-target"]').should('contain', '1');
+
+        // Click Show Alert
+        cy.get('[data-testid="show-alert"]').click();
+        // Click Show Confirm
+        cy.get('[data-testid="show-confirm"]').click();
+        // Click Show Prompt
+        cy.get('[data-testid="show-prompt"]').should('be.visible').click();
+
+        // Type input in prompt
+        cy.window().then(win => {
+        cy.stub(win, 'prompt').returns('Gajah');
+        });
+
+        cy.get('[data-testid="show-prompt"]')
+        .should('be.visible')
+        .click();
+
+        // Optional: assertion hasil prompt
+        cy.contains('Gajah').should('exist');
+    
     });
 });
-
