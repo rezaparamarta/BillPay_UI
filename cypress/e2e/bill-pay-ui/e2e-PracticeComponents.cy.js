@@ -35,7 +35,7 @@ describe('Bill Pay UI Practice Components', () => {
         // Choose any checkbox option
         cy.get('[data-testid="notifications"]').click();
         cy.get('[data-testid="notifications"]').should('be.checked');
-
+        // Click button
         cy.get('[data-testid="btn-primary"]').click();
 
         // Assertion for checking Buttons (Various States) was clicked
@@ -60,7 +60,6 @@ describe('Bill Pay UI Practice Components', () => {
         cy.get('[data-testid="price-slider"]').should('have.value', 350);
         cy.get('#price').should('have.value', 350);
 
-
         // Click date picker
         cy.get('[data-testid="date-input"]')
           .invoke('val', '2026-01-08')
@@ -76,14 +75,49 @@ describe('Bill Pay UI Practice Components', () => {
           .trigger('input')
           .trigger('change');
 
-
         // Choose date and time
         cy.get('[data-testid="datetime-input"]')
           .invoke('val', '2026-01-08 18:24')
           .trigger('input')
           .trigger('change');
-        
-        
 
-    })
-})
+        // pick and choose file
+        cy.get('[data-testid="single-file"]').selectFile('cypress/fixtures/files/Reza Paramarta_Resume.pdf');
+        // Assertion for single file upload
+        cy.get('[data-testid="single-file"]').should(input => {
+            expect(input[0].files[0].name).to.eq('Reza Paramarta_Resume.pdf');
+        });
+
+        // pick and choose multiple files
+        cy.get('[data-testid="multi-file"]').selectFile(['cypress/fixtures/files/Reza Paramarta_Resume.pdf', 'cypress/fixtures/files/REZA_PARAMARTA_TAKE_HOME_TEST_QA.pdf']);
+        // Assertion for multiple file upload
+        cy.get('[data-testid="multi-file"]').should(input => {
+            expect(input[0].files[0].name).to.eq('Reza Paramarta_Resume.pdf');
+            expect(input[0].files[1].name).to.eq('REZA_PARAMARTA_TAKE_HOME_TEST_QA.pdf');
+        });
+
+        // Choose auto complete
+        cy.get('[data-testid="autocomplete"]')
+          .invoke('val', 'cypress')
+          .trigger('input')
+          .trigger('change');
+
+        // Assertion for auto complete
+        cy.get('[data-testid="autocomplete"]').should('have.value', 'cypress');
+
+        // Click button Start Progress
+        cy.get('#startProgress').click();
+
+        // Hover option
+        cy.get('[data-testid="hover-box-1"]').trigger('mouseover');
+        cy.get('[data-testid="hover-box-1"]').click();
+        cy.get('#hoverOutput').should('contain', 'Box 1');
+
+        // Drag and drop
+        cy.get('[data-item="1"]')
+          .drag('[data-testid="drop-target"]')
+
+        // Assertion for drag and drop
+        cy.get('[data-testid="drop-target"]').should('contain', '1');
+    });
+});
