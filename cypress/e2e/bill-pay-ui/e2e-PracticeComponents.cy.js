@@ -1,7 +1,7 @@
 describe('Bill Pay UI Practice Components', () => {
     // Accessing URL Bill Pay UI
     beforeEach(() => {
-        cy.visit('https://gauravkhurana.in/practise-api/ui/index.html#/practice');
+        cy.visit('index.html#/practice');
     });
 
     // Input forms of profile
@@ -121,3 +121,4 @@ describe('Bill Pay UI Practice Components', () => {
         cy.get('[data-testid="drop-target"]').should('contain', '1');
     });
 });
+

@@ -24,3 +24,30 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 import '@4tw/cypress-drag-drop';
+
+Cypress.Commands.add('fillInput', (selector, value) => {
+  cy.get(selector).clear().type(value);
+});
+
+Cypress.Commands.add('setSlider', (selector, value) => {
+  cy.get(selector)
+    .invoke('val', value)
+    .trigger('input')
+    .trigger('change');
+});
+
+Cypress.Commands.add('setDate', (selector, value) => {
+  cy.get(selector)
+    .invoke('val', value)
+    .trigger('input')
+    .trigger('change');
+});
+
+Cypress.Commands.add('uploadFile', (selector, filePath) => {
+  cy.get(selector).selectFile(filePath);
+});
+
+Cypress.Commands.add('uploadMultipleFiles', (selector, files) => {
+  cy.get(selector).selectFile(files);
+});
+
