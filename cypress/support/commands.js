@@ -53,24 +53,44 @@ Cypress.Commands.add('uploadMultipleFiles', (selector, files) => {
   cy.get(selector).selectFile(files);
 });
 
-// cypress/support/commands.js
-// Access input fied number iframe or field name iframe
-Cypress.Commands.add('getIframeInput', (iframeSelector, testId) => {
-  cy.frameLoaded(iframeSelector);
-  return cy.iframe(iframeSelector).find(`[data-testid="${testId}"]`);
+// iframe
+Cypress.Commands.add('getIframeInput', (iframe, testId) => {
+  cy.frameLoaded(iframe);
+  return cy.iframe(iframe).find(`[data-testid="${testId}"]`);
 });
 
-// Access nested iFrame input
-Cypress.Commands.add('getNestedIframeInput', (outerIframe, testId) => {
-  cy.frameLoaded(outerIframe);
-
+Cypress.Commands.add('getNestedIframeInput', (iframe, testId) => {
+  cy.frameLoaded(iframe);
   return cy
-    .iframe(outerIframe)
+    .iframe(iframe)
     .find('iframe')
     .its('0.contentDocument.body')
     .should('not.be.empty')
     .then(cy.wrap)
     .find(`[data-testid="${testId}"]`);
 });
+
+// infinite scroll
+Cypress.Commands.add('scrollDownTimes', (selector, times) => {
+  Cypress._.times(times, () => {
+    cy.get(selector).scrollTo('bottom');
+  });
+});
+
+// keyboard
+Cypress.Commands.add('pressCtrlKey', (key) => {
+  cy.get('body').trigger('keydown', {
+    key,
+    code: `Key${key.toUpperCase()}`,
+    ctrlKey: true,
+  });
+});
+
+// context menu
+Cypress.Commands.add('openContextMenu', () => {
+  cy.get('#contextTarget').rightclick();
+  cy.get('#contextMenu').should('be.visible');
+});
+
 
 
