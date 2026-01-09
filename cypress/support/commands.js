@@ -24,6 +24,8 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 import '@4tw/cypress-drag-drop';
+import 'cypress-iframe';
+
 
 Cypress.Commands.add('fillInput', (selector, value) => {
   cy.get(selector).clear().type(value);
@@ -50,4 +52,25 @@ Cypress.Commands.add('uploadFile', (selector, filePath) => {
 Cypress.Commands.add('uploadMultipleFiles', (selector, files) => {
   cy.get(selector).selectFile(files);
 });
+
+// cypress/support/commands.js
+// Access input fied number iframe or field name iframe
+Cypress.Commands.add('getIframeInput', (iframeSelector, testId) => {
+  cy.frameLoaded(iframeSelector);
+  return cy.iframe(iframeSelector).find(`[data-testid="${testId}"]`);
+});
+
+// Access nested iFrame input
+Cypress.Commands.add('getNestedIframeInput', (outerIframe, testId) => {
+  cy.frameLoaded(outerIframe);
+
+  return cy
+    .iframe(outerIframe)
+    .find('iframe')
+    .its('0.contentDocument.body')
+    .should('not.be.empty')
+    .then(cy.wrap)
+    .find(`[data-testid="${testId}"]`);
+});
+
 

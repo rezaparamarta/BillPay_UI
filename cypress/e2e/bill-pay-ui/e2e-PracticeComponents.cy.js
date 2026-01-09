@@ -138,6 +138,92 @@ describe('Bill Pay UI Practice Components', () => {
 
         // Optional: assertion hasil prompt
         cy.contains('Gajah').should('exist');
+
+        // access input based on data-testid
+        cy.getIframeInput('#cardIframe', 'iframe-card')
+          .clear()
+          .type('3333 3333 3333 3333');
+
+        // access input name based on data-testid
+        cy.getIframeInput('#cardIframe', 'iframe-name')
+          .clear()
+          .type('Gajah Demo');
+
+        // Access nested iframe input
+        cy.getNestedIframeInput('#nestedIframe', 'nested-input')
+          .clear()
+          .type('Gajah nested iframe');
+          
+        // Access and assertion dynamic iframe
+        cy.get('[data-testid="dynamic-id-input"]')
+          .invoke('val', 'Ablahula')
+          .as('initialId')
+        // Click button untuk regenerate id  
+        cy.get('[data-testid="regenerate-id"]').click();
+        // Assertion for checking dynamic iframe was regenerated
+        cy.get('@initialId').then((initialId) => {
+            cy.get('[data-testid="dynamic-id-input"]')
+              .invoke('val', 'abdullah')
+              .trigger('input')
+              .trigger('change')
+              .should('not.equal', initialId);
+        });
+        // Scrolling list item infinite
+        const scrollDown = (times) => {
+          Cypress._.times(times, () => {
+            cy.get('#infiniteList').scrollTo('bottom');
+          });
+        };
+
+        // scroll max 50
+        scrollDown(30);
+        // Assertion for checking list item is scroll
+        cy.get('#scrollCount')
+          .should('contain.text', '30');
+
+        // Ctrl+K simulation first press
+        cy.get('body').trigger('keydown', {key: 'k', ctrlKey: true});
+        cy.get('#kbdTooltip').should('be.visible');
+
+        // Ctrl+K simulation second press
+        cy.get('body').trigger('keydown', {key: 'k', ctrlKey: true});
+        cy.get('#kbdTooltip').should('not.be.visible');
+
+        // Ctrl+S simulation first press
+        cy.get('body').trigger('keydown', {key: 's', ctrlKey: true});
+        cy.get('#kbdOutput').should('contain', 'Ctrl+S');
+
+        // Right click edit
+        cy.get('#contextTarget')
+          .rightclick()
+        // Click context menu
+        cy.get('#ctxEdit').click();
+        // Assertion for checking context menu was edited
+        cy.get('#contextTarget')
+          .invoke('val', 'Gajah')
+          .trigger('input')
+          .trigger('change');
+        // Assertion for checking context menu was edited
+        cy.get('#contextTarget').should('have.value', 'Gajah');
+
+        // Right click copy text
+        cy.get('#contextTarget')
+          .rightclick()
+        cy.get('#ctxCopy').click();
+        // Assertion for checking context menu was copied
+        cy.get('#contextTarget').should('have.value', 'Gajah');
+
+        // Right click delete
+        cy.get('#contextTarget')
+          .rightclick()
+        cy.get('#ctxDelete').click();
+        // Assertion for checking context menu was deleted
+        cy.get('#contextTarget').should('contain.text', '');
+
+
+
+
+
     
     });
 });
