@@ -92,5 +92,11 @@ Cypress.Commands.add('openContextMenu', () => {
   cy.get('#contextMenu').should('be.visible');
 });
 
+// Getbutton delayed
+Cypress.Commands.add('getByTestId', (id) => {
+  cy.get(`[data-testid="${id}"]`);
+});
+
+
 
 

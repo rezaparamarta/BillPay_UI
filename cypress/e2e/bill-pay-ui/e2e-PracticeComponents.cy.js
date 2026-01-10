@@ -220,6 +220,56 @@ describe('Bill Pay UI Practice Components', () => {
         // Assertion for checking context menu was deleted
         cy.get('#contextTarget').should('contain.text', '');
 
+        // Edge Cases & Buggy ELements
+        // Click button to trigger loading of delayed element
+        const delayedLoading = cy.get('[data-testid="load-delayed"]');
+        delayedLoading.should('be.visible').click();
+        // Assertion for checking delayed element was loaded
+        cy.get('[data-testid="delayed-element"]', {timeout: 5000}).should('be.visible')
+        .and('contain.text', 'Element loaded after 3 seconds!');
+
+        // State elements
+        const stateElements = cy.get('[data-testid="stale-input"]');
+        stateElements.should('be.visible').click();
+        stateElements.should('be.visible').type('Gajah');
+
+        // CLick submit button to process content
+        const buttonSumbit = cy.get('[data-testid="cause-stale"]');
+        buttonSumbit.should('be.visible').click({timeout: 5000});
+
+        // Assertion for checking stale element was processed
+        cy.contains('DOM was detached and recreated. Value preserved: "Gajah"');
+
+        // RareConditions button
+        const rareConditionsButton = cy.get('[data-testid="race-button"]');
+        rareConditionsButton.should('be.visible', {timeout: 5000}).click();
+
+        // Hidden Elements
+        const hiddenElements = cy.get('#toggleHidden');
+        hiddenElements.should('be.visible').click();
+
+        // Assertion for checking hidden element was hidden
+        cy.get('[data-testid="hidden-display"]').should('contain.text', 'Hidden by display:none');
+
+        // DoubleCLickRequired
+        cy.get('[data-testid="double-click-btn"]').should('be.visible').dblclick();
+
+        // Assertion for checking double click required
+        cy.get('[data-testid="double-click-btn"]').should('contain.text', 'Double-click me (Count: 1)');
+
+        cy.contains('Duplicate IDs (Anti-Pattern)')
+          .parent()
+          .within(() => {
+            cy.get('[data-testid="duplicate-1"]').type('AAA');
+            cy.get('[data-testid="duplicate-2"]').type('BBB');
+          });
+
+        // Assertion for checking duplicate id
+        cy.get('[data-testid="duplicate-1"]').should('have.value', 'AAA');
+        cy.get('[data-testid="duplicate-2"]').should('have.value', 'BBB');
+
+
+
 
 
 
