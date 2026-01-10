@@ -15,3 +15,6 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+// existing imports
+import './commands/xml.commands';
+import './commands/json.commands';

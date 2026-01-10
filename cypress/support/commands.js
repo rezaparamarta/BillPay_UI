@@ -25,7 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 import '@4tw/cypress-drag-drop';
 import 'cypress-iframe';
-
+import './commands/xml.commands';
 
 Cypress.Commands.add('fillInput', (selector, value) => {
   cy.get(selector).clear().type(value);

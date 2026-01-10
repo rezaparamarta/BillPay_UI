@@ -267,13 +267,5 @@ describe('Bill Pay UI Practice Components', () => {
         // Assertion for checking duplicate id
         cy.get('[data-testid="duplicate-1"]').should('have.value', 'AAA');
         cy.get('[data-testid="duplicate-2"]').should('have.value', 'BBB');
-
-
-
-
-
-
-
-    
     });
 });
