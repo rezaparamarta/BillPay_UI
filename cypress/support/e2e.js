@@ -18,3 +18,5 @@ import './commands'
 // existing imports
 import './commands/xml.commands';
 import './commands/json.commands';
+// cookie auth commands
+import './commands/cookie.commands';
