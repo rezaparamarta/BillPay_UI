@@ -18,7 +18,7 @@ describe('File Upload', () => {
   it('should upload multiple files', () => {
     cy.uploadMultipleFiles('[data-testid="multi-file"]', [
       'cypress/fixtures/files/Reza Paramarta_Resume.pdf',
-      'cypress/fixtures/files/REZA_PARAMARTA_TAKE_HOME_TEST_QA.pdf'
+      'cypress/fixtures/files/BugsBusters_1.jpg',
     ]);
 
     cy.get('[data-testid="multi-file"]').should(input => {
@@ -26,7 +26,7 @@ describe('File Upload', () => {
       expect(input[0].files[0].name)
         .to.eq('Reza Paramarta_Resume.pdf');
       expect(input[0].files[1].name)
-        .to.eq('REZA_PARAMARTA_TAKE_HOME_TEST_QA.pdf');
+        .to.eq('BugsBusters_1.jpg');
     });
   });
 });

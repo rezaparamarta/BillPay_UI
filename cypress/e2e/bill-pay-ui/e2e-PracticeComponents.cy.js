@@ -89,11 +89,11 @@ describe('Bill Pay UI Practice Components', () => {
         });
 
         // pick and choose multiple files
-        cy.get('[data-testid="multi-file"]').selectFile(['cypress/fixtures/files/Reza Paramarta_Resume.pdf', 'cypress/fixtures/files/REZA_PARAMARTA_TAKE_HOME_TEST_QA.pdf']);
+        cy.get('[data-testid="multi-file"]').selectFile(['cypress/fixtures/files/Reza Paramarta_Resume.pdf', 'cypress/fixtures/files/BugsBusters_1.jpg']);
         // Assertion for multiple file upload
         cy.get('[data-testid="multi-file"]').should(input => {
             expect(input[0].files[0].name).to.eq('Reza Paramarta_Resume.pdf');
-            expect(input[0].files[1].name).to.eq('REZA_PARAMARTA_TAKE_HOME_TEST_QA.pdf');
+            expect(input[0].files[1].name).to.eq('BugsBusters_1.jpg');
         });
 
         // Choose auto complete
